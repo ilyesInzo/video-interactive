@@ -30,14 +30,14 @@ export default function InteractiveVideo() {
   let breackPointToScenarios = new Map()
 
   let player;
-  const currentChoix = {}
-  const [choixX, setChoixX] = useState("Choix1")
-  const [choixY, setChoixY] = useState("Choix2")
+  let currentChoix = {}
+  const [choixX, setChoixX] = useState([])
+  const [choixY, setChoixY] = useState([])
 
   const executeChoixX = (e) => {
     //console.log("tu as clicker sur " + choixX);
     loadAudio("clickSound")
-    getPlayer().currentTime(30)
+    getPlayer().currentTime(choixX.startTime)
     hideSpinner()
     getChoiceButton("choixY").style.display = "none"
   }
@@ -45,7 +45,7 @@ export default function InteractiveVideo() {
   const executeChoixY = (e) => {
     //console.log("tu as clicker sur " + choixY);
     loadAudio("clickSound")
-    getPlayer().currentTime(60)
+    getPlayer().currentTime(choixY.startTime)
     hideSpinner()
     getChoiceButton("choixX").style.display = "none"
   }
@@ -124,17 +124,16 @@ export default function InteractiveVideo() {
         breackPointToScenarios.forEach((value, key) => {
           if (key < currentTime && currentTime < (key + precison)) {
             console.log("errr");
-            setChoixX(value.choix1.text)
-            setChoixY(value.choix2.text)
+            currentChoix = value.choix1
+            setChoixX({text: value.choix1.text, startTime: value.choix1.startTime})
+            setChoixY({text: value.choix2.text, startTime: value.choix1.startTime})
             var choixXBtn = getChoiceButton("choixX");
             var choixYBtn = getChoiceButton("choixY");
             choixXBtn.style.display = "block";
             choixYBtn.style.display = "block";
             displaySpinner(() => {
-
               choixXBtn.style.display = "none";
               choixYBtn.style.display = "none";
-
             })
           }
         })
@@ -167,15 +166,15 @@ export default function InteractiveVideo() {
       <div className={videoStyle.outerContainer}>
         <div id="container" className={videoStyle.innerContainer}>
 
-          <button id="choixX" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox}`} onClick={(e) => executeChoixX(e)}>{choixX}</button>
-          <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY}</button>
+          <button id="choixX" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox}`} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
+          <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
           
           <div className={videoStyle.spinner} id="app"></div>
-          <button style={{ display: "none" }} className={videoStyle.videoOverlay} onClick={(e) => executeChoixX(e)}>{choixX}</button>
-          <button style={{ display: "none" }} className={videoStyle.videoOverlay2} onClick={(e) => executeChoixY(e)}>{choixY}</button>
+          <button style={{ display: "none" }} className={videoStyle.videoOverlay} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
+          <button style={{ display: "none" }} className={videoStyle.videoOverlay2} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
 
           <button id="ss" style={{ display: "none" }} className={videoStyle.yellowbutton}
-          >{choixX}</button>
+          >{choixX.text}</button>
           <video id="myPlayer" className="video-js vjs-default-skin"
             controls preload="none" poster='/hamhama.jpg'
             data-setup='{ 
