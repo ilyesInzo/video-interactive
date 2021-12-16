@@ -1,29 +1,22 @@
 {
-        "10": {
-            "choix1": { "text": "scenario 1", "startTime": 20, "endTime": 40, "isSkipTo": null},
-            "choix2": { "text": "scenario 2", "startTime": 40, "endTime": 60},
-            "waitParam": {}
+        "5": {
+            "choix1": "1",
+            "choix2": "2",
+            "choiceMaxTime": null,
+            "default": "choix1"
         },
 
-        "30": {
-            "choix1": { "text": "scenario 3", "startTime": 40, "endTime": 60},
-            "choix2": { "text": "scenario 4", "startTime": 60, "endTime": 80},
-            "waitParam": {}
+        "24": {
+            "choix1": "3",
+            "choix2": "4",
+            "choiceMaxTime": 6,
+            "default": "choix1"
         },
  
-        "50": {
-            "choix1": { "text": "scenario 5", "startTime": 60, "endTime": 80},
-            "choix2": { "text": "scenario 6", "startTime": 80, "endTime": 100},
-            "waitParam": {}
-        },
-        "70": {
-            "choix1": { "text": "scenario 7", "startTime": 80, "endTime": 100},
-            "choix2": { "text": "scenario 8", "startTime": 100, "endTime": 120},
-            "waitParam": {}
-        },
-        "90": {
-            "choix1": { "text": "scenario 9", "startTime": 100, "endTime": 110, "isFinal": true},
-            "choix2": { "text": "scenario 10", "startTime": 110, "endTime": 120, "isFinal": true},
-            "waitParam": {}
+        "35": {
+            "choix1": "5",
+            "choix2": "6",
+            "choiceMaxTime": 10,
+            "default": "choix1"
         }
 }

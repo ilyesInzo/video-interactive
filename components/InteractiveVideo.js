@@ -10,7 +10,8 @@ import { displaySpinner, hideSpinner, reverseSpinner } from '../lib/spinner'
 import { fullScreenByElementIdHandler, fullScreenByElementHandler } from '../lib/fullScreen'
 import { attachButtonToVideo } from '../lib/videoButton'
 import { jsonToMap } from '../lib/ObjectMap'
-import setting from '../data/settings.json'
+//import setting from '../data/settings.json'
+import setting from '../data/settings'
 //import {usersRepo} from '../lib/manageSettings'
 //import anime from 'animejs/lib/anime.es.js';
 export default function InteractiveVideo() {
@@ -40,6 +41,7 @@ export default function InteractiveVideo() {
     getPlayer().currentTime(choixX.startTime)
     hideSpinner()
     getChoiceButton("choixY").style.display = "none"
+    currentChoix = choixX
   }
 
   const executeChoixY = (e) => {
@@ -48,6 +50,7 @@ export default function InteractiveVideo() {
     getPlayer().currentTime(choixY.startTime)
     hideSpinner()
     getChoiceButton("choixX").style.display = "none"
+    currentChoix = choixY
   }
 
   const runSpinner = (e) => {
@@ -87,13 +90,13 @@ export default function InteractiveVideo() {
   useEffect(() => {
     player = getPlayer();
     //desintegrate("choixX")
-    breackPointToScenarios = jsonToMap(setting)
+    breackPointToScenarios = jsonToMap(setting())
     /*console.log(breackPointToScenarios.get(10))*/
     /*
     runSpinner()
     pauseSpinner()
     */
-
+    
     var choixXBtn = getChoiceButton("choixX");
     var choixYBtn = getChoiceButton("choixY");
     choixXBtn.style.display = "block"
@@ -121,22 +124,27 @@ export default function InteractiveVideo() {
         //if()
 
         let currentTime = player.currentTime()
+
+        //check the current choice if it is final
+        // if it is final go to the outro (outro start)
+
         breackPointToScenarios.forEach((value, key) => {
-          if (key < currentTime && currentTime < (key + precison)) {
+          if (((key - precison / 2)  < currentTime) && (currentTime < (key + precison / 2))) {
             console.log("errr");
-            currentChoix = value.choix1
-            setChoixX({text: value.choix1.text, startTime: value.choix1.startTime})
-            setChoixY({text: value.choix2.text, startTime: value.choix1.startTime})
+            setChoixX(value.choix1)
+            setChoixY(value.choix2)
             var choixXBtn = getChoiceButton("choixX");
             var choixYBtn = getChoiceButton("choixY");
             choixXBtn.style.display = "block";
             choixYBtn.style.display = "block";
             displaySpinner(() => {
+              // we have to add currentChoice in case no choice made
               choixXBtn.style.display = "none";
               choixYBtn.style.display = "none";
-            })
+            }, value.choiceMaxTime)
           }
         })
+
 
 
       });
