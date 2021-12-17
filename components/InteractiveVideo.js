@@ -12,10 +12,11 @@ import { attachButtonToVideo } from '../lib/videoButton'
 import { jsonToMap } from '../lib/ObjectMap'
 //import setting from '../data/settings.json'
 import setting from '../data/settings'
+import scenaries from '../data/scenaries.json'
 //import {usersRepo} from '../lib/manageSettings'
 //import anime from 'animejs/lib/anime.es.js';
 export default function InteractiveVideo() {
-  
+
 
   // normal enchainment
   /*let scenarios = new Map([
@@ -96,7 +97,7 @@ export default function InteractiveVideo() {
     runSpinner()
     pauseSpinner()
     */
-    
+    currentChoix = scenaries.intro
     var choixXBtn = getChoiceButton("choixX");
     var choixYBtn = getChoiceButton("choixY");
     choixXBtn.style.display = "block"
@@ -129,7 +130,7 @@ export default function InteractiveVideo() {
         // if it is final go to the outro (outro start)
 
         breackPointToScenarios.forEach((value, key) => {
-          if (((key - precison / 2)  < currentTime) && (currentTime < (key + precison / 2))) {
+          if (((key - precison / 2) < currentTime) && (currentTime < (key + precison / 2))) {
             console.log("errr");
             setChoixX(value.choix1)
             setChoixY(value.choix2)
@@ -141,12 +142,14 @@ export default function InteractiveVideo() {
               // we have to add currentChoice in case no choice made
               choixXBtn.style.display = "none";
               choixYBtn.style.display = "none";
+              let nextChoice = value[value.default]
+              if (!currentChoix.isContinue) {
+                player.currentTime(nextChoice.startTime)
+              }
+              currentChoix = nextChoice
             }, value.choiceMaxTime)
           }
         })
-
-
-
       });
 
       player.on("pause", () => {
@@ -165,7 +168,7 @@ export default function InteractiveVideo() {
   return (
 
     <div className={videoStyle.centerContant}>
-      
+
       <audio id="clickSound" src="/audios/sound1.wav" type="audio/mpeg"></audio>
       <button id="go_fullscreen" style={{ display: "none" }}>Go FullScreen</button>
       <button onClick={(e) => runSpinner(e)}>Run Spinner</button>
@@ -176,7 +179,7 @@ export default function InteractiveVideo() {
 
           <button id="choixX" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox}`} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
           <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
-          
+
           <div className={videoStyle.spinner} id="app"></div>
           <button style={{ display: "none" }} className={videoStyle.videoOverlay} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
           <button style={{ display: "none" }} className={videoStyle.videoOverlay2} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>

@@ -1,6 +1,6 @@
 {
     "intro": {
-         "text": "scenario 1", "startTime": 0, "endTime": 15, "isSkipTo": null
+         "text": "scenario 1", "startTime": 0, "endTime": 15, "isContinue": true
     },
     "1": {
          "text": "scenario 2", "startTime": 15, "endTime": 30

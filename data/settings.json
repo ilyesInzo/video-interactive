@@ -2,7 +2,7 @@
         "5": {
             "choix1": "1",
             "choix2": "2",
-            "choiceMaxTime": null,
+            "choiceMaxTime": 10,
             "default": "choix1"
         },
 
