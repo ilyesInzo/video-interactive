@@ -15,6 +15,7 @@ import setting from '../data/settings'
 import scenaries from '../data/scenaries.json'
 //import {usersRepo} from '../lib/manageSettings'
 //import anime from 'animejs/lib/anime.es.js';
+let currentChoix = {}
 export default function InteractiveVideo() {
 
   // preceision en seconde
@@ -22,12 +23,11 @@ export default function InteractiveVideo() {
   let breackPointToScenarios = new Map()
 
   let player;
-  let currentChoix = {}
+
   const [choixX, setChoixX] = useState([])
   const [choixY, setChoixY] = useState([])
 
   const executeChoixX = (e) => {
-    //console.log("tu as clicker sur " + choixX);
     loadAudio("clickSound")
     getPlayer().currentTime(choixX.startTime)
     hideSpinner()
@@ -36,7 +36,6 @@ export default function InteractiveVideo() {
   }
 
   const executeChoixY = (e) => {
-    //console.log("tu as clicker sur " + choixY);
     loadAudio("clickSound")
     getPlayer().currentTime(choixY.startTime)
     hideSpinner()
@@ -75,7 +74,7 @@ export default function InteractiveVideo() {
     choixYBtn.style.display = "none"
 
     fullScreenByElementIdHandler("go_fullscreen")
-    
+
     player.on('ready', () => {
       const bar = player.DisableProgressBar()
       bar.disable()
@@ -88,35 +87,42 @@ export default function InteractiveVideo() {
       let executed = false
 
       player.on('timeupdate', () => {
-        //console.log(player.currentTime());
-        //if()
 
         let currentTime = player.currentTime()
 
         //check the current choice if it is final
         // if it is final go to the outro (outro start)
-
-        breackPointToScenarios.forEach((value, key) => {
-          if (((key - precison / 2) < currentTime) && (currentTime < (key + precison / 2))) {
-            console.log("Found");
-            setChoixX(value.choix1)
-            setChoixY(value.choix2)
-            var choixXBtn = getChoiceButton("choixX");
-            var choixYBtn = getChoiceButton("choixY");
-            choixXBtn.style.display = "block";
-            choixYBtn.style.display = "block";
-            displaySpinner(() => {
-              // we have to add currentChoice in case no choice made
-              choixXBtn.style.display = "none";
-              choixYBtn.style.display = "none";
-              let nextChoice = value[value.default]
-              if (!currentChoix.isContinue) {
-                player.currentTime(nextChoice.startTime)
-              }
-              currentChoix = nextChoice
-            }, value.choiceMaxTime)
+        if (currentChoix.isFinal) {
+          if (((currentChoix.endTime - precison / 2) < currentTime) && (currentTime < (currentChoix.endTime + precison / 2))) {
+            if (!currentChoix.isContinue) {
+              player.currentTime(scenaries.outro.startTime)
+            }
           }
-        })
+        } else {
+
+          breackPointToScenarios.forEach((value, key) => {
+            if (((key - precison / 2) < currentTime) && (currentTime < (key + precison / 2))) {
+              setChoixX(value.choix1)
+              setChoixY(value.choix2)
+              var choixXBtn = getChoiceButton("choixX");
+              var choixYBtn = getChoiceButton("choixY");
+              choixXBtn.style.display = "block";
+              choixYBtn.style.display = "block";
+              displaySpinner(() => {
+                // we have to add currentChoice in case no choice made
+                choixXBtn.style.display = "none";
+                choixYBtn.style.display = "none";
+                let nextChoice = value[value.default]
+                if (!currentChoix.isContinue) {
+                  player.currentTime(nextChoice.startTime)
+                }
+                currentChoix = nextChoice
+              }, value.choiceMaxTime)
+            }
+          })
+
+        }
+
       });
 
       player.on("pause", () => {
