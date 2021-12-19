@@ -189,7 +189,7 @@ export default function InteractiveVideo() {
           <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
           <div className={videoStyle.spinner} id="app"></div>
           <video id="myPlayer" className="video-js vjs-default-skin"
-            controls preload="none" poster='/hamhama.jpg'
+            controls preload="none" poster='/cover.jpg'
            >
             <source id="mySource" src="/videos/myVideo.mp4" type='video/mp4' />
           </video>
