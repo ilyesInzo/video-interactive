@@ -1,17 +1,48 @@
 {
+    "intro": {
+        "text": "Intro",
+        "startTime": 0,
+        "endTime": 15,
+        "isContinue": true
+    },
     "1": {
-         "text": "scenario 1", "startTime": 20, "endTime": 40, "isSkipTo": null
+        "text": "Scenario 1",
+        "startTime": 15,
+        "endTime": 30
     },
     "2": {
-         "text": "scenario 3", "startTime": 40, "endTime": 60
+        "text": "Scenario 2",
+        "startTime": 30,
+        "endTime": 45
     },
     "3": {
-         "text": "scenario 5", "startTime": 60, "endTime": 80
+        "text": "Scenario 3",
+        "startTime": 45,
+        "endTime": 60,
+        "isFinal": true
     },
     "4": {
-        "text": "scenario 7", "startTime": 80, "endTime": 100
+        "text": "Scenario 4",
+        "startTime": 60,
+        "endTime": 75,
+        "isFinal": true
     },
     "5": {
-        "text": "scenario 9", "startTime": 100, "endTime": 110, "isFinal": true
+        "text": "Scenario 5",
+        "startTime": 75,
+        "endTime": 90,
+        "isFinal": true
+    },
+    "6": {
+        "text": "Scenario 6",
+        "startTime": 90,
+        "endTime": 120,
+        "isFinal": true,
+        "isContinue": true
+    },
+    "outro": {
+        "text": "Outro",
+        "startTime": 120,
+        "endTime": 120
     }
 }
