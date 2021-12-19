@@ -7,7 +7,7 @@ import 'videojs-disable-progress-bar/lib/DisableProgressBar'
 import { useEffect, useState } from 'react';
 import { attacheParticule, desintegrate, exploseElement } from '../lib/particle'
 import { displaySpinner, hideSpinner, reverseSpinner } from '../lib/spinner'
-import { fullScreenByElementIdHandler, fullScreenByElementHandler } from '../lib/fullScreen'
+import { fullScreenByElementIdHandler, fullScreenByElementHandler, toggleFullscreen } from '../lib/fullScreen'
 import { attachButtonToVideo } from '../lib/videoButton'
 import { jsonToMap } from '../lib/ObjectMap'
 //import setting from '../data/settings.json'
@@ -16,20 +16,19 @@ import scenaries from '../data/scenaries.json'
 //import {usersRepo} from '../lib/manageSettings'
 //import anime from 'animejs/lib/anime.es.js';
 let currentChoix = {}
+let player
 export default function InteractiveVideo() {
 
   // preceision en seconde
   const precison = 0.3;
   let breackPointToScenarios = new Map()
 
-  let player;
-
   const [choixX, setChoixX] = useState([])
   const [choixY, setChoixY] = useState([])
 
   const executeChoixX = (e) => {
     loadAudio("clickSound")
-    getPlayer().currentTime(choixX.startTime)
+    player.currentTime(choixX.startTime)
     hideSpinner()
     getChoiceButton("choixY").style.display = "none"
     currentChoix = choixX
@@ -37,14 +36,25 @@ export default function InteractiveVideo() {
 
   const executeChoixY = (e) => {
     loadAudio("clickSound")
-    getPlayer().currentTime(choixY.startTime)
+    player.currentTime(choixY.startTime)
     hideSpinner()
     getChoiceButton("choixX").style.display = "none"
     currentChoix = choixY
   }
 
+  const executeReplay = (e) => {
+    loadAudio("clickSound")
+    player.currentTime(0)
+    player.play()
+    resetSettings()
+  }
+
   const getChoiceButton = (buttonId) => {
     return document.getElementById(buttonId)
+  }
+
+  const getBlock = (blockID) => {
+    return document.getElementById(blockID)
   }
 
   const getAudioComponent = (audioId) => {
@@ -57,7 +67,28 @@ export default function InteractiveVideo() {
     currentAudio.play()
   }
 
-  const getPlayer = () => videojs('myPlayer')
+  const getPlayer = () => videojs('myPlayer', {
+    responsive:true,
+    fluid:true,
+    controlBar: {
+     fullscreenToggle: false,
+     currentTimeDisplay: false,
+     timeDivider: false,
+     durationDisplay: false,
+     pictureInPictureToggle:false,
+     remainingTimeDisplay: false
+    },
+    userActions: {
+      doubleClick: () => {toggleFullscreen()}
+    }
+  })
+
+  const resetSettings = () => {
+    getChoiceButton("choixX").style.display = "none"
+    getChoiceButton("choixY").style.display = "none"
+    hideSpinner()
+    currentChoix = scenaries.intro
+  }
 
   useEffect(() => {
     player = getPlayer();
@@ -81,6 +112,7 @@ export default function InteractiveVideo() {
       attachButtonToVideo(player, fullScreenByElementHandler)
 
       player.on('ended', () => {
+        resetSettings()
         console.log("ended")
       });
 
@@ -126,11 +158,17 @@ export default function InteractiveVideo() {
       });
 
       player.on("pause", () => {
+        //getBlock("block2").style.display = "block"
         reverseSpinner()
+        getBlock("block1").style.display = "block"
+        getChoiceButton("replay").style.display = "block";
       });
 
       player.on("play", () => {
         reverseSpinner()
+        getBlock("block1").style.display = "none"
+        getChoiceButton("replay").style.display = "none"
+        //getBlock("block2").style.display = "none"
       });
 
     });
@@ -144,24 +182,15 @@ export default function InteractiveVideo() {
       <button id="go_fullscreen" style={{ display: "none" }}>Go FullScreen</button>
       <div className={videoStyle.outerContainer}>
         <div id="container" className={videoStyle.innerContainer}>
+          <div id='block1' style={{ display: "none" }} className={videoStyle.block}>
+          </div>
+          <button id="replay" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox3}`} onClick={(e) => executeReplay(e)}>Replay</button>
           <button id="choixX" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox}`} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
           <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
           <div className={videoStyle.spinner} id="app"></div>
           <video id="myPlayer" className="video-js vjs-default-skin"
             controls preload="none" poster='/hamhama.jpg'
-            data-setup='{ 
-           "responsive":true,
-           "fluid":true,
-           "controlBar": {
-            "fullscreenToggle": false,
-            "currentTimeDisplay": false,
-            "timeDivider": false,
-            "durationDisplay": false,
-            "pictureInPictureToggle":false,
-            "remainingTimeDisplay": false
-          }
-          
-          }'>
+           >
             <source id="mySource" src="/videos/attaque.mp4" type='video/mp4' />
           </video>
         </div>
@@ -182,3 +211,6 @@ export default function InteractiveVideo() {
     </div>
   )
 }
+/*
+ <div id='block2' style={{ display: "none" }} className={videoStyle.clickableBlock}></div>
+ */
