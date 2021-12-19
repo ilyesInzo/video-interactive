@@ -191,7 +191,7 @@ export default function InteractiveVideo() {
           <video id="myPlayer" className="video-js vjs-default-skin"
             controls preload="none" poster='/hamhama.jpg'
            >
-            <source id="mySource" src="/videos/attaque.mp4" type='video/mp4' />
+            <source id="mySource" src="/videos/myVideo.mp4" type='video/mp4' />
           </video>
         </div>
       </div>
