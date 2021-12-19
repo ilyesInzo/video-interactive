@@ -44,10 +44,10 @@ Here we defined all the possible scenarios that constitutes our video (like in t
     }
 }
 ```
-### video & audio
+### video & audio & cover image
 
-In the public folder you can find both (videos & audios) folders where we store the video to play and the sound to use when clicking a button
+In the public folder you can find both (videos & audios) folders where we store the video to play and the sound to use when clicking a button. you can also change the cover image displayed at the start of a video
 
-You have to respect the naming (name your video **myVideo** and the sound **sound1**)
+You have to respect the naming (name your video **myVideo** , the sound **sound1** and the cover **cover**)
 
 * currently we support **.mp4 video** and **.wav sound**
