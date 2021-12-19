@@ -44,3 +44,10 @@ Here we defined all the possible scenarios that constitutes our video (like in t
     }
 }
 ```
+### video & audio
+
+In the public folder you can find both (videos & audios) folders where we store the video to play and the sound to use when clicking a button
+
+You have to respect the naming (name your video **myVideo** and the sound **sound1**)
+
+* currently we support **.mp4 video** and **.wav sound**
