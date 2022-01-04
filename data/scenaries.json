@@ -3,7 +3,8 @@
         "text": "Intro",
         "startTime": 0,
         "endTime": 15,
-        "isContinue": true
+        "isContinue": true,
+        "idDisplayJumpButton": true
     },
     "1": {
         "text": "Scenario 1",

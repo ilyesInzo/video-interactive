@@ -3,6 +3,8 @@ import styles from '../styles/InteractiveVideo.module.scss'
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import videoStyle from "./videoContainer.module.scss"
+import  "../styles/spinnerButton.module.scss"
+import choiceStyle from "./choice.module.scss"
 import 'videojs-disable-progress-bar/lib/DisableProgressBar'
 import { useEffect, useState } from 'react';
 import { attacheParticule, desintegrate, exploseElement } from '../lib/particle'
@@ -30,6 +32,7 @@ export default function InteractiveVideo() {
     loadAudio("clickSound")
     player.currentTime(choixX.startTime)
     hideSpinner()
+    getChoiceButton("choixX").style.display = "none"
     getChoiceButton("choixY").style.display = "none"
     currentChoix = choixX
   }
@@ -39,16 +42,25 @@ export default function InteractiveVideo() {
     player.currentTime(choixY.startTime)
     hideSpinner()
     getChoiceButton("choixX").style.display = "none"
+    getChoiceButton("choixY").style.display = "none"
     currentChoix = choixY
   }
 
   const executeReplay = (e) => {
     loadAudio("clickSound")
+    loadAudio("videoSound")
     player.currentTime(0)
     player.play()
     resetSettings()
   }
 
+  const executeSkipIntro = (e) => {
+    loadAudio("clickSound")
+    player.currentTime(currentChoix.endTime)
+    getChoiceButton("skipIntro").style.display = "none"
+    currentChoix = scenaries['1']
+  }
+  
   const getChoiceButton = (buttonId) => {
     return document.getElementById(buttonId)
   }
@@ -67,16 +79,28 @@ export default function InteractiveVideo() {
     currentAudio.play()
   }
 
+  const pauseAudio = (audioId) => {
+    const currentAudio = getAudioComponent(audioId)
+    currentAudio.pause()
+  }
+
+  const continueAudio = (audioId) => {
+    const currentAudio = getAudioComponent(audioId)
+    currentAudio.play()
+  }
+
   const getPlayer = () => videojs('myPlayer', {
     responsive:true,
     fluid:true,
+    muted:true,
     controlBar: {
      fullscreenToggle: false,
      currentTimeDisplay: false,
      timeDivider: false,
      durationDisplay: false,
      pictureInPictureToggle:false,
-     remainingTimeDisplay: false
+     remainingTimeDisplay: false,
+     volumePanel:false
     },
     userActions: {
       doubleClick: () => {toggleFullscreen()}
@@ -99,8 +123,8 @@ export default function InteractiveVideo() {
     var choixYBtn = getChoiceButton("choixY");
     choixXBtn.style.display = "block"
     choixYBtn.style.display = "block"
-    attacheParticule(choixXBtn)
-    attacheParticule(choixYBtn)
+    //attacheParticule(choixXBtn)
+    //attacheParticule(choixYBtn)
     choixXBtn.style.display = "none"
     choixYBtn.style.display = "none"
 
@@ -113,6 +137,7 @@ export default function InteractiveVideo() {
 
       player.on('ended', () => {
         resetSettings()
+        pauseAudio("videoSound")
         console.log("ended")
       });
 
@@ -131,6 +156,14 @@ export default function InteractiveVideo() {
             }
           }
         } else {
+
+          if(currentChoix.idDisplayJumpButton){
+            if (((currentChoix.endTime - precison / 2) < currentTime) && (currentTime < (currentChoix.endTime + precison / 2))) {
+              getChoiceButton("skipIntro").style.display = "none"
+            }
+          }else {
+            getChoiceButton("skipIntro").style.display = "none"
+          }
 
           breackPointToScenarios.forEach((value, key) => {
             if (((key - precison / 2) < currentTime) && (currentTime < (key + precison / 2))) {
@@ -162,12 +195,18 @@ export default function InteractiveVideo() {
         reverseSpinner()
         getBlock("block1").style.display = "block"
         getChoiceButton("replay").style.display = "block";
+        pauseAudio("videoSound")
       });
 
       player.on("play", () => {
+        if (currentChoix.idDisplayJumpButton)
+        {
+          getChoiceButton("skipIntro").style.display = "block"
+        }
         reverseSpinner()
         getBlock("block1").style.display = "none"
         getChoiceButton("replay").style.display = "none"
+        continueAudio("videoSound")
         //getBlock("block2").style.display = "none"
       });
 
@@ -177,21 +216,22 @@ export default function InteractiveVideo() {
   return (
 
     <div className={videoStyle.centerContant}>
-
       <audio id="clickSound" src="/audios/sound1.wav" type="audio/mpeg"></audio>
+      <audio id="videoSound" src="/audios/videoSound.mp3" type="audio/mpeg"></audio>
       <button id="go_fullscreen" style={{ display: "none" }}>Go FullScreen</button>
       <div className={videoStyle.outerContainer}>
         <div id="container" className={videoStyle.innerContainer}>
           <div id='block1' style={{ display: "none" }} className={videoStyle.block}>
           </div>
+          <button id="skipIntro" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox4}`} onClick={(e) => executeSkipIntro(e)}>Skip Intro</button>
           <button id="replay" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox3}`} onClick={(e) => executeReplay(e)}>Replay</button>
-          <button id="choixX" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox}`} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
-          <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
+          <button id="choixX"  className={`${choiceStyle.choice1}`} onClick={(e) => executeChoixX(e)}></button>
+          <button id="choixY"  className={`${choiceStyle.choice2}`} onClick={(e) => executeChoixY(e)}></button>
           <div className={videoStyle.spinner} id="app"></div>
           <video id="myPlayer" className="video-js vjs-default-skin"
             controls preload="none" poster='/cover.jpg'
            >
-            <source id="mySource" src="/videos/myVideo.mp4" type='video/mp4' />
+            <source id="mySource" src="/videos/vid.mp4" type='video/mp4' />
           </video>
         </div>
       </div>
@@ -213,4 +253,9 @@ export default function InteractiveVideo() {
 }
 /*
  <div id='block2' style={{ display: "none" }} className={videoStyle.clickableBlock}></div>
+
+          <button id="choixX" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox}`} onClick={(e) => executeChoixX(e)}>{choixX.text}</button>
+          <button id="choixY" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox2}`} onClick={(e) => executeChoixY(e)}>{choixY.text}</button>
+
  */
+

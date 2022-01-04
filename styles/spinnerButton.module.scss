@@ -44,12 +44,11 @@
   
   .base-timer__label {
     position: absolute;
-    //width: 300px;
-    //height: 300px;
-    top: 0;
+    top: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
-    //font-size: 48px;
-    font-size: 1.5vw;
+    width: 50px;
+    height: 50px;
+    --background-image: url("/smiley.png");
   }
