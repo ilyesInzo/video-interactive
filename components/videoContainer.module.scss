@@ -96,6 +96,17 @@
   height: 10%;
 }
 
+.textBox4 {
+  left: 40%;
+  top: 15%;
+  z-index: 3;
+  border-style: hidden;
+  cursor: pointer;
+  font-family: cursive;
+  width: 20%;
+  height: 10%;
+}
+
 .btn {
   //text-transform: uppercase;
   text-decoration: none;
@@ -124,7 +135,8 @@
 
 .btnWhite {
   color: #fff;
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(121, 9, 119, 1) 40%, rgba(9, 149, 177, 1) 100%);
+  background: red;
+  opacity: 0.7;
 }
 
 .btn::after {
@@ -141,7 +153,8 @@
 }
 
 .btnWhite::after {
-  background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(121, 9, 119, 1) 40%, rgba(9, 149, 177, 1) 100%);
+  background: red;
+  opacity: 0.7;
 }
 
 .btn:hover::after {
