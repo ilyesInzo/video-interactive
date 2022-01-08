@@ -217,7 +217,7 @@ export default function InteractiveVideo() {
 
     <div className={videoStyle.centerContant}>
       <audio id="clickSound" src="/audios/sound1.wav" type="audio/mpeg"></audio>
-      <audio id="videoSound" src="/audios/videoSound.mp3" type="audio/mpeg"></audio>
+      <audio id="videoSound" src="/audios/videoSound.mp3" type="audio/mpeg" loop></audio>
       <button id="go_fullscreen" style={{ display: "none" }}>Go FullScreen</button>
       <div className={videoStyle.outerContainer}>
         <div id="container" className={videoStyle.innerContainer}>
