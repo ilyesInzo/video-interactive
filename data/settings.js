@@ -59,8 +59,8 @@ const checkSequence = () => {
         if (currentElement.endTime != nextElement.startTime) {
             throw new Error("The scenarios are not consecutive the end of must be the start of another ")
         }
-        // if not final it should have choices
-        if (!currentElement.isFinal) {
+        // if not final and not isDisplayJumpButton it should have choices
+        if (!currentElement.isFinal && !currentElement.idDisplayJumpButton) {
             var isChoiceProvided = false
             for (var choiceTimeKey in settings) {
                 if (currentElement.startTime < Number(choiceTimeKey) && Number(choiceTimeKey) < currentElement.endTime) {

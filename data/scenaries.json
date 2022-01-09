@@ -2,23 +2,23 @@
     "intro": {
         "text": "Intro",
         "startTime": 0,
-        "endTime": 15,
+        "endTime": 17,
         "isContinue": true,
         "idDisplayJumpButton": true
     },
     "1": {
         "text": "Scenario 1",
-        "startTime": 15,
-        "endTime": 30
+        "startTime": 17,
+        "endTime": 41.9
     },
     "2": {
         "text": "Scenario 2",
-        "startTime": 30,
-        "endTime": 45
+        "startTime": 41.9,
+        "endTime": 50
     },
     "3": {
         "text": "Scenario 3",
-        "startTime": 45,
+        "startTime": 50,
         "endTime": 60,
         "isFinal": true
     },

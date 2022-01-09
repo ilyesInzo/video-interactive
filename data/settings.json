@@ -1,20 +1,14 @@
 {
-    "5": {
-        "choix1": "1",
-        "choix2": "2",
-        "choiceMaxTime": 10,
+    "32.9": {
+        "choix1": "2",
+        "choix2": "3",
+        "choiceMaxTime": 9,
         "default": "choix1"
     },
-    "24": {
-        "choix1": "3",
-        "choix2": "4",
-        "choiceMaxTime": 6,
-        "default": "choix1"
-    },
-    "35": {
-        "choix1": "5",
-        "choix2": "6",
-        "choiceMaxTime": 10,
+    "43": {
+        "choix1": "4",
+        "choix2": "5",
+        "choiceMaxTime": 7,
         "default": "choix1"
     }
 }
