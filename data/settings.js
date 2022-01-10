@@ -56,7 +56,7 @@ const checkSequence = () => {
     for (let index = 0; index < sortable.length - 1; index++) {
         const currentElement = sortable[index][1];
         const nextElement = sortable[index + 1][1];
-        if (currentElement.endTime != nextElement.startTime) {
+        if (currentElement.endTime > nextElement.startTime || currentElement.endTime + 1 < nextElement.startTime) {
             throw new Error("The scenarios are not consecutive the end of must be the start of another ")
         }
         // if not final and not isDisplayJumpButton it should have choices

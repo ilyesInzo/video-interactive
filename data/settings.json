@@ -1,14 +1,49 @@
 {
-    "32.9": {
+    "32.10": {
         "choix1": "2",
+        "choix2": "9",
+        "choiceMaxTime": 9,
+        "default": "choix2"
+    },
+    "48.09": {
+        "choix1": "6",
         "choix2": "3",
         "choiceMaxTime": 9,
-        "default": "choix1"
+        "default": "choix2"
     },
-    "43": {
-        "choix1": "4",
-        "choix2": "5",
-        "choiceMaxTime": 7,
-        "default": "choix1"
+    "63.23": {
+        "choix1": "5",
+        "choix2": "4",
+        "choiceMaxTime": 9,
+        "default": "choix2"
+    },
+    "90.22": {
+        "choix1": "8",
+        "choix2": "7",
+        "choiceMaxTime": 9,
+        "default": "choix2"
+    },
+    "119": {
+        "choix1": "13",
+        "choix2": "10",
+        "choiceMaxTime": 9,
+        "default": "choix2"
+    },
+    "136.18": {
+        "choix1": "12",
+        "choix2": "11",
+        "choiceMaxTime": 9,
+        "default": "choix2"
+    },
+    "164.17": {
+        "choix1": "15",
+        "choix2": "14",
+        "choiceMaxTime": 9,
+        "default": "choix2"
     }
+
+
+
+
+
 }
