@@ -223,7 +223,7 @@ export default function InteractiveVideo() {
         <div id="container" className={videoStyle.innerContainer}>
           <div id='block1' style={{ display: "none" }} className={videoStyle.block}>
           </div>
-          <button id="skipIntro" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox4}`} onClick={(e) => executeSkipIntro(e)}>Skip Intro</button>
+          <button id="skipIntro" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox4}`} onClick={(e) => executeSkipIntro(e)}>Play</button>
           <button id="replay" style={{ display: "none" }} className={`${videoStyle.btn} ${videoStyle.btnWhite} ${videoStyle.btnAnimate} ${videoStyle.textBox3}`} onClick={(e) => executeReplay(e)}>Replay</button>
           <button id="choixX"  className={`${choiceStyle.choice1}`} onClick={(e) => executeChoixX(e)}></button>
           <button id="choixY"  className={`${choiceStyle.choice2}`} onClick={(e) => executeChoixY(e)}></button>
